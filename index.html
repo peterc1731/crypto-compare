@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>coin</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" href="./styles.css" type="text/css">
+</head>
+<body>
+	<div id="app">
+		<div class="header">
+			<div class="container">
+
+			</div>
+			<div class="container">
+				<h1 class="heading">Cryptocurrency Pricing Aggregator</h1>
+				<div class="header-p">
+					<p>A convenient way to find the best places to buy and sell cryptocurrencies.</p>
+					<p>Updates automatically every 60 seconds.</p>
+				</div>
+			</div>
+			<div class="container text-center">
+					<a class="scroll-icon animated bounceInUp" @click.prevent="scrollMain" href="#main"><span class="glyphicon glyphicon-menu-down"></span></a>
+			</div>
+		</div>
+		<div id="main" class="container main">
+			<ul class="nav nav-pills nav-justified">
+				<li role="presentation" class="active"><a href="#bitcoin" aria-controls="bitcoin" role="tab" data-toggle="pill" @click="changeCoin('BTC')">Bitcoin</a></li>
+				<li role="presentation"><a href="#etherium" aria-controls="etherium" role="tab" data-toggle="pill" @click="changeCoin('ETH')">Etherium</a></li>
+				<li role="presentation"><a href="#litecoin" aria-controls="litecoin" role="tab" data-toggle="pill" @click="changeCoin('LTC')">Litecoin</a></li>
+			</ul>
+			<div class="block-container">
+				<div class="block" v-for="item in prices">
+					<div class="name">
+						{{ item.name }}
+					</div>
+					<div class="value">
+						<div class="price-label">{{ coin }} Price (USD):</div>
+						<div class="price">{{ item.price }}</div>
+					</div>
+					<div class="updated">
+						<div class="update-label">Last Updated:</div>
+						<div class="update">{{ item.lastUpdate }}</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="./jquery-3.2.1.min.js"></script>
+	<script src="./bootstrap.min.js"></script>
+	<script src="./vue.min.js"></script>
+	<link rel="stylesheet" href="./animate.css" type="text/css">
+</body>
+</html>
+
+<script>
+	var app = new Vue({
+		el: '#app',
+		mounted: function () {
+			var vm = this;
+			for (var i = 0; i < this.prices.length; i++) {
+				this.getPrices(this.prices[i]);
+			}
+			setInterval(function() {
+				for (var i = 0; i < vm.prices.length; i++) {
+					vm.getPrices(vm.prices[i]);
+				}
+			}, 1000*60);
+		},
+		data: {
+			prices: [
+			{'name': 'Coinbase', 'price': 0, 'lastUpdate': ''},
+			{'name': 'Bitfinex', 'price': 0, 'lastUpdate': ''},
+			{'name': 'OKCoin', 'price': 0, 'lastUpdate': ''},
+			{'name': 'Cexio', 'price': 0, 'lastUpdate': ''},
+			{'name': 'Coinfloor', 'price': 0, 'lastUpdate': ''},
+			{'name': 'Bitstamp', 'price': 0, 'lastUpdate': ''}
+			],
+			coin: 'BTC',
+		},
+		methods: {
+			getPrices: function (item) {
+				var vm = this;
+				var settings = {
+					"async": true,
+					"crossDomain": true,
+					"url": "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=" + vm.coin + "&tsyms=USD&e=" + item.name,
+					"method": "GET",
+					"headers": {},
+					"data": "{}"
+				}
+				$.ajax(settings).done(function (response) {
+					console.log(response);
+					if (response.Response == "Error") {
+						item.price = "No Data";
+						item.lastUpdate = "";
+					} else {
+						item.price = response.DISPLAY[vm.coin].USD.PRICE;
+						item.lastUpdate = response.DISPLAY[vm.coin].USD.LASTUPDATE;
+					}
+				});
+			},
+			changeCoin: function (newCoin) {
+				this.coin = newCoin;
+				for (var i = 0; i < this.prices.length; i++) {
+					this.getPrices(this.prices[i]);
+				}
+			},
+			scrollMain: function () {
+				$('html, body').animate({
+					scrollTop: $('#main').offset().top
+				}, 200);
+			}
+		}
+	})
+</script>

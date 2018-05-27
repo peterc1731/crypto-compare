@@ -1,0 +1,148 @@
+[v-cloak] {
+	display: none;
+}
+
+.header {
+	height: 100vh;
+	border-bottom: 2px solid #E0E0E0;
+	margin-bottom: 30px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.header-p {
+	font-size: 18px;
+	-webkit-backface-visibility: hidden;
+}
+
+.scroll-icon {
+	display: inline-flex;
+	border: 1px solid #8E00FF;
+	border-radius: 50%;
+	width: 60px;
+	height: 60px;
+	font-size: 25px;
+	align-items: center;
+	justify-content: center;
+	text-decoration: none;
+	margin-bottom: 30px;
+}
+
+.scroll-icon:hover, .scroll-icon:active, .scroll-icon:focus:hover {
+	text-decoration: none;
+	color: white;
+	background-color: #8E00FF;
+}
+
+.scroll-icon:focus {
+	background: transparent;
+	color: #8E00FF;
+	text-decoration: none;
+}
+
+.updated {
+	animation-name: update;
+    animation-duration: 60s;
+    animation-delay: 60s;
+    animation-iteration-count: infinite;
+}
+
+.block {
+	border: 2px solid #E0E0E0;
+	border-radius: 5px;
+	margin-top: 30px;
+	padding: 20px;
+	width: 48%;
+}
+
+.block-container {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	margin-bottom: 50px;
+}
+
+.name {
+	font-size: 30px;
+	font-weight: 600;
+}
+
+.price-label {
+	font-size: 25px;
+}
+
+.price {
+	font-size: 40px;
+	color: #8E00FF;
+}
+
+.value {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px 0px;
+	margin: auto;
+}
+
+.updated {
+	display: flex;
+	justify-content: flex-start;
+	padding: 10px 0px;
+	margin: auto;
+	color: #8C8C8C;
+}
+
+body::-webkit-scrollbar {
+  width: 0;
+}
+
+.update {
+	margin-left: 20px;
+}
+a {
+	color: #8E00FF;
+}
+
+.heading {
+	color: #8E00FF;
+	font-size: 50px;
+	margin-bottom: 30px;
+}
+
+.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
+	color: white;
+	background-color: #8E00FF;
+}
+
+.main {
+	height: 100vh;
+	padding-top: 20px;
+}
+
+
+
+
+@keyframes update {
+    0% {background-color: #FFFEF1;}
+    8.33% {background-color: white;}
+    100% {background-color: white;}
+}
+
+@media (max-width: 768px) {
+    .block-container {
+        flex-direction: column;
+        margin-bottom: 30px;
+    }
+    .block {
+    	width: 100%;
+    }
+	.price-label {
+		font-size: 20px;
+	}
+	.price {
+		font-size: 30px;
+		color: #8E00FF;
+	}
+}
